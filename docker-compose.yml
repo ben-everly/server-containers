@@ -2,20 +2,40 @@ version: '3.1'
 
 services:
 
-  nginx-proxy:
-    image: nginxproxy/nginx-proxy
+  bind9:
+    image: internetsystemsconsortium/bind9:9.18
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - 53/udp
+      - 53/tcp
+      - 953/tcp
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./bind9:/etc/bind
+      - /var/cache/bind
+      - /var/lib/bind
+      - /var/log
+    networks:
+      everly.home:
+        ipv4_address: 10.0.1.2
 
   postgres:
     image: postgres
     restart: always
     ports:
-      - 5432:5432
+      - 5432
+    networks:
+      everly.home:
+        ipv4_address: 10.0.1.3
+    dns:
+      - "10.0.1.2"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
+
+networks:
+  everly.home:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.1.0/16
+          gateway: 10.0.1.1
