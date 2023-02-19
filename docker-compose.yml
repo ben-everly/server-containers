@@ -32,6 +32,31 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
 
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    restart: unless-stopped
+    ports:
+      - 9091
+      - 51413
+      - 51413/udp
+    volumes:
+      - ./transmission/config:/config
+      - ./transmission/downloads:/downloads
+      - ./transmission/watch:/watch
+    networks:
+      everly.home:
+        ipv4_address: 10.0.1.4
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Chicago
+      TRANSMISSION_WEB_HOME: #optional
+      USER: username #optional
+      PASS: password #optional
+      WHITELIST: #optional
+      PEERPORT: #optional
+      HOST_WHITELIST: #optional
+
 networks:
   everly.home:
     driver: bridge
