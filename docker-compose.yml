@@ -57,6 +57,20 @@ services:
       PEERPORT: #optional
       HOST_WHITELIST: #optional
 
+  plex:
+    image: plexinc/pms-docker
+    restart: unless-stopped
+    ports:
+      - 32400:32400/tcp
+    volumes:
+      - ./plex/config:/config
+      - ./plex/data:/data
+    networks:
+      everly.home:
+        ipv4_address: 10.0.1.5
+    environment:
+      TZ: America/Chicago
+
 networks:
   everly.home:
     driver: bridge
