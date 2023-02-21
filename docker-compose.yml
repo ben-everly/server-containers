@@ -3,17 +3,23 @@ version: '3.1'
 services:
 
   dns:
-    image: strm/dnsmasq
+    image: pihole/pihole:latest
     restart: always
     ports:
+      - 53/tcp
       - 53/udp
+      - 80/tcp
     volumes:
-      - ./dnsmasq.conf:/etc/dnsmasq.conf
+      - './pihole/config:/etc/pihole'
+      - './pihole/dnsmasq:/etc/dnsmasq.d'
     networks:
       everly.home:
         ipv4_address: 10.0.1.2
-    cap_add:
-      - NET_ADMIN
+    environment:
+      TZ: 'America/Chicago'
+      WEBPASSWORD: 'pass'
+      VIRTUAL_HOST: dns.everly.home
+      VIRTUAL_PORT: 80
 
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -30,7 +36,7 @@ services:
     image: postgres
     restart: always
     ports:
-      - 5432
+      - 5432:5432
     networks:
       - everly.home
     environment:
