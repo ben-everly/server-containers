@@ -71,6 +71,27 @@ services:
     environment:
       TZ: America/Chicago
 
+  mealie:
+    image: hkotel/mealie:latest
+    restart: unless-stopped
+    ports:
+      - 80
+    networks:
+      everly.home:
+        ipv4_address: 10.0.1.6
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Chicago
+      RECIPE_PUBLIC: 'true'
+      RECIPE_SHOW_NUTRITION: 'true'
+      RECIPE_SHOW_ASSETS: 'true'
+      RECIPE_LANDSCAPE_VIEW: 'true'
+      RECIPE_DISABLE_COMMENTS: 'true'
+      RECIPE_DISABLE_AMOUNT: 'false'
+    volumes:
+      - ./mealie/data/:/app/data
+
 networks:
   everly.home:
     driver: bridge
