@@ -37,7 +37,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
 
-  transmission:
+  torrent:
     image: lscr.io/linuxserver/transmission:latest
     restart: unless-stopped
     ports:
@@ -60,7 +60,7 @@ services:
       WHITELIST: #optional
       PEERPORT: #optional
       HOST_WHITELIST: #optional
-      VIRTUAL_HOST: transmission.*
+      VIRTUAL_HOST: torrent.*
       VIRTUAL_PORT: 9091
 
   plex:
