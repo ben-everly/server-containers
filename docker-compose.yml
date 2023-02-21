@@ -2,21 +2,29 @@ version: '3.1'
 
 services:
 
-  bind9:
-    image: internetsystemsconsortium/bind9:9.18
+  dns:
+    image: strm/dnsmasq
     restart: always
     ports:
       - 53/udp
-      - 53/tcp
-      - 953/tcp
     volumes:
-      - ./bind9:/etc/bind
-      - /var/cache/bind
-      - /var/lib/bind
-      - /var/log
+      - ./dnsmasq.conf:/etc/dnsmasq.conf
     networks:
       everly.home:
         ipv4_address: 10.0.1.2
+    cap_add:
+      - NET_ADMIN
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - everly.home
 
   postgres:
     image: postgres
@@ -24,10 +32,7 @@ services:
     ports:
       - 5432
     networks:
-      everly.home:
-        ipv4_address: 10.0.1.3
-    dns:
-      - "10.0.1.2"
+      - everly.home
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
@@ -44,8 +49,7 @@ services:
       - ./transmission/downloads:/downloads
       - ./transmission/watch:/watch
     networks:
-      everly.home:
-        ipv4_address: 10.0.1.4
+      - everly.home
     environment:
       PUID: 1000
       PGID: 1000
@@ -56,6 +60,8 @@ services:
       WHITELIST: #optional
       PEERPORT: #optional
       HOST_WHITELIST: #optional
+      VIRTUAL_HOST: transmission.*
+      VIRTUAL_PORT: 9091
 
   plex:
     image: plexinc/pms-docker
@@ -66,8 +72,7 @@ services:
       - ./plex/config:/config
       - ./plex/data:/data
     networks:
-      everly.home:
-        ipv4_address: 10.0.1.5
+      - everly.home
     environment:
       TZ: America/Chicago
 
@@ -76,9 +81,10 @@ services:
     restart: unless-stopped
     ports:
       - 80
+    volumes:
+      - ./mealie/data/:/app/data
     networks:
-      everly.home:
-        ipv4_address: 10.0.1.6
+      - everly.home
     environment:
       PUID: 1000
       PGID: 1000
@@ -89,8 +95,7 @@ services:
       RECIPE_LANDSCAPE_VIEW: 'true'
       RECIPE_DISABLE_COMMENTS: 'true'
       RECIPE_DISABLE_AMOUNT: 'false'
-    volumes:
-      - ./mealie/data/:/app/data
+      VIRTUAL_HOST: mealie.*
 
 networks:
   everly.home:
