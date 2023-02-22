@@ -44,30 +44,29 @@ services:
       POSTGRES_PASSWORD: example
 
   torrent:
-    image: lscr.io/linuxserver/transmission:latest
+    image: haugene/transmission-openvpn
     restart: unless-stopped
     ports:
       - 9091
-      - 51413
-      - 51413/udp
     volumes:
       - ./transmission/config:/config
-      - ./transmission/downloads:/downloads
-      - ./transmission/watch:/watch
+      - ./transmission/data:/data
     networks:
       - everly.home
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
     environment:
-      PUID: 1000
-      PGID: 1000
-      TZ: America/Chicago
-      TRANSMISSION_WEB_HOME: #optional
-      USER: username #optional
-      PASS: password #optional
-      WHITELIST: #optional
-      PEERPORT: #optional
-      HOST_WHITELIST: #optional
+      OPENVPN_PROVIDER: NORDVPN
+      OPENVPN_CONFIG: france
+      OPENVPN_USERNAME: ${NORDVPN_USERNAME}
+      OPENVPN_PASSWORD: ${NORDVPN_PASSWORD}
+      LOCAL_NETWORK: 192.168.0.0/16
       VIRTUAL_HOST: torrent.*
       VIRTUAL_PORT: 9091
+    cap_add:
+      - NET_ADMIN
 
   plex:
     image: plexinc/pms-docker
