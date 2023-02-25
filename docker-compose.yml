@@ -10,8 +10,8 @@ services:
       - 53/udp
       - 80/tcp
     volumes:
-      - './pihole/config:/etc/pihole'
-      - './pihole/dnsmasq:/etc/dnsmasq.d'
+      - './config/pihole:/etc/pihole'
+      - './config/dnsmasq:/etc/dnsmasq.d'
     networks:
       everly.home:
         ipv4_address: 10.0.1.2
@@ -49,8 +49,8 @@ services:
     ports:
       - 9091
     volumes:
-      - ./transmission/config:/config
-      - ./data/torrents:/data
+      - ./config/transmisison:/config
+      - ./data/.torrents:/data
     networks:
       - everly.home
     logging:
@@ -73,7 +73,7 @@ services:
     ports:
       - 7878
     volumes:
-      - ./radarr:/config
+      - ./config/radarr:/config
       - ./data:/data
     networks:
       - everly.home
@@ -92,7 +92,7 @@ services:
       - 9117
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./data/torrents:/downloads # place where to put .torrent files for manual download
+      - ./data/.torrents:/downloads # place where to put .torrent files for manual download
       - ./config/jackett:/config # config files
     networks:
       - everly.home
@@ -109,7 +109,7 @@ services:
     ports:
       - 32400:32400/tcp
     volumes:
-      - ./plex/config:/config
+      - ./config/plex:/config
       - ./data:/data
     networks:
       - everly.home
@@ -122,7 +122,7 @@ services:
     ports:
       - 80
     volumes:
-      - ./mealie/data/:/app/data
+      - ./data/Recipies:/app/data
     networks:
       - everly.home
     environment:
