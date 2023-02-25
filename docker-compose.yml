@@ -68,6 +68,23 @@ services:
     cap_add:
       - NET_ADMIN
 
+  radarr:
+    image: cr.hotio.dev/hotio/radarr
+    ports:
+      - 7878
+    volumes:
+      - ./radarr:/config
+      - ./data:/data
+    networks:
+      - everly.home
+    environment:
+      PUID: 1000
+      PGID: 1000
+      UMASK: 002
+      TZ: America/Chicago
+      VIRTUAL_HOST: radarr.*
+      VIRTUAL_PORT: 7878
+
   plex:
     image: plexinc/pms-docker
     restart: unless-stopped
