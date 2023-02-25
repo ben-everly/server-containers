@@ -43,14 +43,14 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
 
-  torrent:
+  transmission:
     image: haugene/transmission-openvpn
     restart: unless-stopped
     ports:
       - 9091
     volumes:
       - ./transmission/config:/config
-      - ./transmission/data:/data
+      - ./data/torrents:/data
     networks:
       - everly.home
     logging:
@@ -110,7 +110,7 @@ services:
       - 32400:32400/tcp
     volumes:
       - ./plex/config:/config
-      - ./plex/data:/data
+      - ./data:/data
     networks:
       - everly.home
     environment:
