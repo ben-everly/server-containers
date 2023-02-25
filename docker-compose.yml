@@ -92,8 +92,8 @@ services:
       - 9117
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./data/.torrents:/downloads # place where to put .torrent files for manual download
-      - ./config/jackett:/config # config files
+      - ./data/.torrents:/downloads
+      - ./config/jackett:/config
     networks:
       - everly.home
     environment:
