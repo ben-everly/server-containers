@@ -16,7 +16,7 @@ services:
       home:
         ipv4_address: 10.0.1.2
     environment:
-      TZ: 'America/Chicago'
+      TZ: America/Chicago
       WEBPASSWORD: 'pass'
       PIHOLE_UID: 1000
       PIHOLE_GID: 1000
@@ -65,6 +65,9 @@ services:
       OPENVPN_USERNAME: ${NORDVPN_USERNAME}
       OPENVPN_PASSWORD: ${NORDVPN_PASSWORD}
       LOCAL_NETWORK: 192.168.0.0/16
+      TZ: America/Chicago
+      PUID: 1000
+      PGID: 1000
       VIRTUAL_HOST: transmission.*
       VIRTUAL_PORT: 9091
     cap_add:
