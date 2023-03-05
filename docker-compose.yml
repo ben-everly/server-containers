@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
 
-  dns:
+  pihole:
     image: pihole/pihole:latest
     restart: always
     ports:
@@ -10,8 +10,8 @@ services:
       - 53/udp
       - 80/tcp
     volumes:
-      - './config/pihole:/etc/pihole'
-      - './config/dnsmasq:/etc/dnsmasq.d'
+      - '${PIHOLE_CONFIG_DIR:-./config/pihole}:/etc/pihole'
+      - '${DNSMASQ_CONFIG_DIR:-./config/dnsmasq}:/etc/dnsmasq.d'
     networks:
       everly.home:
         ipv4_address: 10.0.1.2
@@ -49,8 +49,8 @@ services:
     ports:
       - 9091
     volumes:
-      - ./config/transmisison:/config
-      - ./data/.torrents:/data
+      - ${TRANSMISSION_CONFIG_DIR:-./config/transmission}:/config
+      - ${DATA_DIR:-./data}/.torrents:/data
     networks:
       - everly.home
     logging:
@@ -63,7 +63,7 @@ services:
       OPENVPN_USERNAME: ${NORDVPN_USERNAME}
       OPENVPN_PASSWORD: ${NORDVPN_PASSWORD}
       LOCAL_NETWORK: 192.168.0.0/16
-      VIRTUAL_HOST: torrent.*
+      VIRTUAL_HOST: transmission.*
       VIRTUAL_PORT: 9091
     cap_add:
       - NET_ADMIN
@@ -73,8 +73,8 @@ services:
     ports:
       - 7878
     volumes:
-      - ./config/radarr:/config
-      - ./data:/data
+      - ${RADARR_CONFIG_DIR:-./config/radarr}:/config
+      - ${DATA_DIR:-./data}:/data
     networks:
       - everly.home
     environment:
@@ -92,8 +92,8 @@ services:
       - 9117
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./data/.torrents:/downloads
-      - ./config/jackett:/config
+      - ${DATA_DIR:-./data}/.torrents:/downloads
+      - ${JACKETT_CONFIG_DIR:-./config/jackett}:/config
     networks:
       - everly.home
     environment:
@@ -109,8 +109,8 @@ services:
     ports:
       - 32400:32400/tcp
     volumes:
-      - ./config/plex:/config
-      - ./data:/data
+      - ${PLEX_CONFIG_DIR:-./config/plex}:/config
+      - ${DATA_DIR:-./data}:/data
     networks:
       - everly.home
     environment:
@@ -122,7 +122,7 @@ services:
     ports:
       - 80
     volumes:
-      - ./data/Recipies:/app/data
+      - ${DATA_DIR:-./data}/.mealie:/app/data
     networks:
       - everly.home
     environment:
