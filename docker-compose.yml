@@ -18,6 +18,8 @@ services:
     environment:
       TZ: 'America/Chicago'
       WEBPASSWORD: 'pass'
+      PIHOLE_UID: 1000
+      PIHOLE_GID: 1000
       VIRTUAL_HOST: dns.everly.home
       VIRTUAL_PORT: 80
 
