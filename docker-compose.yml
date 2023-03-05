@@ -90,6 +90,23 @@ services:
       VIRTUAL_HOST: radarr.*
       VIRTUAL_PORT: 7878
 
+  sonarr:
+    image: cr.hotio.dev/hotio/sonarr
+    ports:
+      - 8989
+    volumes:
+      - ${SONARR_CONFIG_DIR:-./config/sonarr}:/config
+      - ${DATA_DIR:-./data}:/data
+    networks:
+      - home
+    environment:
+      PUID: 1000
+      PGID: 1000
+      UMASK: 002
+      TZ: America/Chicago
+      VIRTUAL_HOST: sonarr.*
+      VIRUTAL_PORT: 8989
+
   jackett:
     image: linuxserver/jackett:latest
     restart: unless-stopped
