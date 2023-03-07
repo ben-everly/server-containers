@@ -83,6 +83,9 @@ services:
       - ${DATA_DIR:-./data}:/data
     networks:
       - home
+    depends_on:
+      - jackett
+      - transmission
     environment:
       PUID: 1000
       PGID: 1000
@@ -101,6 +104,9 @@ services:
       - ${DATA_DIR:-./data}:/data
     networks:
       - home
+    depends_on:
+      - jackett
+      - transmission
     environment:
       PUID: 1000
       PGID: 1000
