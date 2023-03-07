@@ -75,6 +75,7 @@ services:
 
   radarr:
     image: cr.hotio.dev/hotio/radarr
+    restart: unless-stopped
     ports:
       - 7878
     volumes:
@@ -92,6 +93,7 @@ services:
 
   sonarr:
     image: cr.hotio.dev/hotio/sonarr
+    restart: unless-stopped
     ports:
       - 8989
     volumes:
