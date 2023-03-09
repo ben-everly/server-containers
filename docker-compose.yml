@@ -151,6 +151,14 @@ services:
     restart: unless-stopped
     ports:
       - 32400:32400/tcp
+      - 1900:1900/udp
+      - 5353/udp
+      - 8324:8324/tcp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413/udp
+      - 32414:32414/udp
+      - 32469:32469/tcp
     volumes:
       - ${PLEX_CONFIG_DIR:-./config/plex}:/config
       - ${DATA_DIR:-./data}:/data
@@ -158,6 +166,11 @@ services:
       - home
     environment:
       TZ: America/Chicago
+      ADVERTISE_IP: http://192.168.1.32:32400
+      PLEX_UID: 1000
+      PLEX_GID: 1000
+      VIRTUAL_HOST: plex.*
+      VIRTUAL_PORT: 32400
 
   mealie:
     image: hkotel/mealie:latest
