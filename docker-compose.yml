@@ -86,6 +86,21 @@ services:
     cap_add:
       - NET_ADMIN
 
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    volumes:
+      - /config/sabnzbd:/config
+      - /data/.usenet/downloads:/downloads
+      - /data/.usenet/incomplete/downloads:/incomplete-downloads
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Chicago
+      VIRTUAL_HOST: sabnzbd.*
+
   radarr:
     image: cr.hotio.dev/hotio/radarr
     restart: unless-stopped
