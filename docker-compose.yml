@@ -63,6 +63,7 @@ services:
     restart: unless-stopped
     ports:
       - 9091
+      - 0.0.0.0:8080:8080
     volumes:
       - ${TRANSMISSION_CONFIG_DIR:-./config/transmission}:/config
       - ${DATA_DIR:-./data}/.torrents:/data
@@ -89,21 +90,15 @@ services:
   sabnzbd:
     image: dyonr/sabnzbdvpn
     restart: unless-stopped
-    ports:
-      - 8080:8080
-      - 8443
     volumes:
-      - /config/sabnzbd:/config
-      - /data/.usenet/downloads:/downloads
+      - ./config/sabnzbd:/config
+      - ./data/.usenet/downloads:/downloads
+    networks:
+      - home
+    network_mode: "service:transmission"
     environment:
-      VPN_ENABLED: yes
-      VPN_TYPE: openvpn
-      VPN_USERNAME: ${NORDVPN_USERNAME}
-      VPN_PASSWORD: ${NORDVPN_PASSWORD}
       PUID: 1000
       PGID: 1000
-      VIRTUAL_HOST: sabnzbd.*
-      VIRTUAL_PORT: 8443
 
   radarr:
     image: cr.hotio.dev/hotio/radarr
