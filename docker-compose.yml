@@ -45,6 +45,22 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
 
+  samba:
+    image: dperson/samba
+    restart: always
+    ports:
+      - 139:139
+      - 445:445
+    volumes:
+      - ./data:/mount
+    networks:
+      - home
+    environment:
+      TZ: America/Chicago
+      USERID: 1000
+      GROUPID: 1000
+      SHARE: bluefan_store;/mount
+
   homer:
     image: b4bz/homer
     restart: unless-stopped
