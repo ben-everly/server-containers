@@ -37,8 +37,9 @@ services:
   gluetun:
     image: qmcgaw/gluetun
     ports:
-      - 8888:8888/tcp # HTTP proxy
-      - 8080:8080/tcp
+      - 8888:8888 # HTTP proxy
+      - 8080:8080
+      - 9091:9091
     volumes:
       - ./config/gluetun:/gluetun
     networks:
@@ -98,30 +99,19 @@ services:
       VIRTUAL_HOST: dashboard.*, homer.*
 
   transmission:
-    image: haugene/transmission-openvpn
+    image: linuxserver/transmission
     restart: unless-stopped
-    ports:
-      - 9091
     volumes:
       - ${TRANSMISSION_CONFIG_DIR:-./config/transmission}:/config
-      - ${DATA_DIR:-./data}/.torrents:/data
+      - ${DATA_DIR:-./data}/.torrents:/downloads
+      - ${DATA_DIR:-./data}/.torrents/watch:/watch
     networks:
       - home
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
+    network_mode: "service:gluetun"
     environment:
-      OPENVPN_PROVIDER: NORDVPN
-      OPENVPN_CONFIG: france
-      OPENVPN_USERNAME: ${NORDVPN_USERNAME}
-      OPENVPN_PASSWORD: ${NORDVPN_PASSWORD}
-      LOCAL_NETWORK: 192.168.0.0/16
       TZ: America/Chicago
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
-      VIRTUAL_HOST: transmission.*
-      VIRTUAL_PORT: 9091
     cap_add:
       - NET_ADMIN
 
