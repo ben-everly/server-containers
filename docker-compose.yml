@@ -34,6 +34,29 @@ services:
     networks:
       - home
 
+  gluetun:
+    image: qmcgaw/gluetun
+    ports:
+      - 8888:8888/tcp # HTTP proxy
+      - 8080:8080/tcp
+    volumes:
+      - ./config/gluetun:/gluetun
+    networks:
+      - home
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    environment:
+      VPN_SERVICE_PROVIDER: nordvpn
+      OPENVPN_USER: ${NORDVPN_USERNAME}
+      OPENVPN_PASSWORD: ${NORDVPN_PASSWORD}
+      SERVER_REGIONS: United States
+      HTTPPROXY: enabled
+      TZ: America/Chicago
+      VIRTUAL_HOST: gluetun.*
+      VIRTUAL_PORT: 8080
+
   postgres:
     image: postgres
     restart: always
@@ -79,7 +102,6 @@ services:
     restart: unless-stopped
     ports:
       - 9091
-      - 0.0.0.0:8080:8080
     volumes:
       - ${TRANSMISSION_CONFIG_DIR:-./config/transmission}:/config
       - ${DATA_DIR:-./data}/.torrents:/data
@@ -112,7 +134,7 @@ services:
       - ${DATA_DIR:-./data}/.usenet/incomplete:/incomplete-downloads
     networks:
       - home
-    network_mode: "service:transmission"
+    network_mode: "service:gluetun"
     environment:
       TZ: America/Chicago
       PUID: 1000
