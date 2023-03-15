@@ -52,7 +52,7 @@ services:
       - 139:139
       - 445:445
     volumes:
-      - ./data:/mount
+      - ${DATA_DIR:-./data}:/mount
     networks:
       - home
     environment:
@@ -108,8 +108,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./config/sabnzbd:/config
-      - ./data/.usenet/downloads:/downloads
-      - ./data/.usenet/incomplete:/incomplete-downloads
+      - ${DATA_DIR:-./data}/.usenet/downloads:/downloads
+      - ${DATA_DIR:-./data}/.usenet/incomplete:/incomplete-downloads
     networks:
       - home
     network_mode: "service:transmission"
