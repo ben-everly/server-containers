@@ -131,6 +131,7 @@ services:
     depends_on:
       - jackett
       - transmission
+      - sabnzbd
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -152,6 +153,7 @@ services:
     depends_on:
       - jackett
       - transmission
+      - sabnzbd
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
