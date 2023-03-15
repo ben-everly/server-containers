@@ -104,15 +104,17 @@ services:
       - NET_ADMIN
 
   sabnzbd:
-    image: dyonr/sabnzbdvpn
+    image: linuxserver/sabnzbd
     restart: unless-stopped
     volumes:
       - ./config/sabnzbd:/config
       - ./data/.usenet/downloads:/downloads
+      - ./data/.usenet/incomplete:/incomplete-downloads
     networks:
       - home
     network_mode: "service:transmission"
     environment:
+      TZ: America/Chicago
       PUID: 1000
       PGID: 1000
 
