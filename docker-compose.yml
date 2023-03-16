@@ -26,7 +26,7 @@ services:
     restart: always
     ports:
       - '80:80'
-      - '81:81'
+      - '81'
       - '443:443'
     volumes:
       - ./config/nginx-proxy-manager:/data
@@ -40,8 +40,8 @@ services:
     restart: always
     ports:
       - 8888:8888 # HTTP proxy
-      - 8080:8080
-      - 9091:9091
+      - 8080
+      - 9091
     volumes:
       - ${GLUETUN_CONFIG_DIR:-./config/gluetun}:/gluetun
     networks:
@@ -106,8 +106,7 @@ services:
       - ${DATA_DIR:-./data}/.torrents:/downloads
       - ${DATA_DIR:-./data}/.torrents/watch:/watch
     networks:
-      home:
-        ipv4_address: 10.0.1.7
+      - home
     network_mode: "service:gluetun"
     environment:
       TZ: America/Chicago
@@ -124,8 +123,7 @@ services:
       - ${DATA_DIR:-./data}/.usenet/downloads:/downloads
       - ${DATA_DIR:-./data}/.usenet/incomplete:/incomplete-downloads
     networks:
-      home:
-        ipv4_address: 10.0.1.8
+      - home
     network_mode: "service:gluetun"
     environment:
       TZ: America/Chicago
@@ -142,7 +140,7 @@ services:
       - ${DATA_DIR:-./data}:/data
     networks:
       home:
-        ipv4_address: 10.0.1.9
+        ipv4_address: 10.0.1.7
     depends_on:
       - jackett
       - transmission
@@ -163,7 +161,7 @@ services:
       - ${DATA_DIR:-./data}:/data
     networks:
       home:
-        ipv4_address: 10.0.1.10
+        ipv4_address: 10.0.1.8
     depends_on:
       - jackett
       - transmission
@@ -185,7 +183,7 @@ services:
       - ${JACKETT_CONFIG_DIR:-./config/jackett}:/config
     networks:
       home:
-        ipv4_address: 10.0.1.11
+        ipv4_address: 10.0.1.9
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -209,7 +207,7 @@ services:
       - ${DATA_DIR:-./data}:/data
     networks:
       home:
-        ipv4_address: 10.0.1.12
+        ipv4_address: 10.0.1.10
     environment:
       TZ: America/Chicago
       ADVERTISE_IP: http://192.168.1.32:32400
@@ -225,7 +223,7 @@ services:
       - ${DATA_DIR:-./data}/.mealie:/app/data
     networks:
       home:
-        ipv4_address: 10.0.1.13
+        ipv4_address: 10.0.1.11
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
