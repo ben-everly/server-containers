@@ -179,7 +179,7 @@ services:
       - 9117
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${DATA_DIR:-./data}/.torrents:/downloads
+      - ${DATA_DIR:-./data}/.torrents/watch:/downloads
       - ${JACKETT_CONFIG_DIR:-./config/jackett}:/config
     networks:
       home:
@@ -234,6 +234,24 @@ services:
       RECIPE_LANDSCAPE_VIEW: 'true'
       RECIPE_DISABLE_COMMENTS: 'true'
       RECIPE_DISABLE_AMOUNT: 'false'
+
+  gitlab:
+    image: gitlab/gitlab-ee
+    restart: unless-stopped
+    ports:
+      - 80
+      - 443
+      - 22
+    volumes:
+      - ${GITLAB_CONFIG_DIR:-./config/gitlab}:/etc/gitlab
+      - ${GITLAB_LOG_DIR:-./logs/gitlab}/:/var/log/gitlab
+      - ${DATA_DIR:-./data}:/var/opt/gitlab
+    networks:
+      home:
+        ipv4_address: 10.0.1.12
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.everly.home'
 
 networks:
   home:
