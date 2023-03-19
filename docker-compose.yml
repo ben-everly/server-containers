@@ -254,6 +254,20 @@ services:
         external_url 'http://gitlab.everly.home'
     shm_size: 256m
 
+  homeassistant:
+    image: homeassistant/home-assistant
+    restart: unless-stopped
+    ports:
+      - 8123:8123
+    volumes:
+      - ${HOMEASSISTANT_CONFIG_DIR:-./config/homeassistant}:/config
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      home:
+        ipv4_address: 10.0.1.14
+    environment:
+      TZ: America/Chicago
+
 networks:
   home:
     driver: bridge
