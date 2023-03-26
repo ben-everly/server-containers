@@ -172,6 +172,23 @@ services:
       UMASK: 002
       TZ: America/Chicago
 
+  readarr:
+    image: cr.hotio.dev/hotio/readarr
+    restart: unless-stopped
+    ports:
+      - 8787
+    volumes:
+      - ${READARR_CONFIG_DIR:-./config/readarr}:/config
+      - ${DATA_DIR:-./data}:/data
+    networks:
+      home:
+        ipv4_address: 10.0.1.17
+    environment:
+      PUID: ${UID:-1000}
+      PGID: ${GID:-1000}
+      UMASK: 002
+      TZ: America/Chicago
+
   prowlarr:
     image: cr.hotio.dev/hotio/prowlarr
     restart: unless-stopped
