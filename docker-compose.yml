@@ -172,6 +172,20 @@ services:
       UMASK: 002
       TZ: America/Chicago
 
+  overseerr:
+    image: sctx/overseerr:latest
+    restart: unless-stopped
+    ports:
+      - 5055
+    volumes:
+      - ${OVERSEER_CONFIG_DIR:-./config/overseerr}:/app/config
+    networks:
+      home:
+        ipv4_address: 10.0.1.15
+    environment:
+      TZ: America/Chicago
+      LOG_LEVEL: debug
+
   jackett:
     image: linuxserver/jackett:latest
     restart: unless-stopped
