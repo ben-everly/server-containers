@@ -172,6 +172,22 @@ services:
       UMASK: 002
       TZ: America/Chicago
 
+  prowlarr:
+    image: cr.hotio.dev/hotio/prowlarr
+    restart: unless-stopped
+    ports:
+      - 9696
+    volumes:
+      - ${PROWLARR_CONFIG_DIR:-./config/prowlarr}:/config
+    networks:
+      home:
+        ipv4_address: 10.0.1.16
+    environment:
+      PUID: ${UID:-1000}
+      PGID: ${GID:-1000}
+      UMASK: 002
+      TZ: America/Chicago
+
   overseerr:
     image: sctx/overseerr:latest
     restart: unless-stopped
