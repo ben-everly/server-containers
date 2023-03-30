@@ -261,6 +261,22 @@ services:
       PLEX_UID: ${UID:-1000}
       PLEX_GID: ${GID:-1000}
 
+  calibre:
+    restart: unless-stopped
+    image: lscr.io/linuxserver/calibre
+    ports:
+      - 8080
+      - 8081
+    volumes:
+      - ${DATA_DIR:-./data}/calibre:/config
+    networks:
+      home:
+        ipv4_address: 10.0.1.18
+    environment:
+      PUID: ${UID:-1000}
+      PGID: ${GID:-1000}
+      TZ: America/Chicago
+
   mealie:
     image: hkotel/mealie:latest
     restart: unless-stopped
