@@ -10,14 +10,14 @@ services:
       - 53/udp
       - 80/tcp
     volumes:
-      - '${PIHOLE_CONFIG_DIR:-./config/pihole}:/etc/pihole'
-      - '${DNSMASQ_CONFIG_DIR:-./config/dnsmasq}:/etc/dnsmasq.d'
+      - ${PIHOLE_CONFIG_DIR:-./config/pihole}:/etc/pihole
+      - ${DNSMASQ_CONFIG_DIR:-./config/dnsmasq}:/etc/dnsmasq.d
     networks:
       home:
         ipv4_address: 10.0.1.2
     environment:
       TZ: America/Chicago
-      WEBPASSWORD: 'pass'
+      WEBPASSWORD: pass
       PIHOLE_UID: ${UID:-1000}
       PIHOLE_GID: ${GID:-1000}
 
@@ -312,12 +312,12 @@ services:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
       TZ: America/Chicago
-      RECIPE_PUBLIC: 'true'
-      RECIPE_SHOW_NUTRITION: 'true'
-      RECIPE_SHOW_ASSETS: 'true'
-      RECIPE_LANDSCAPE_VIEW: 'true'
-      RECIPE_DISABLE_COMMENTS: 'true'
-      RECIPE_DISABLE_AMOUNT: 'false'
+      RECIPE_PUBLIC: true
+      RECIPE_SHOW_NUTRITION: true
+      RECIPE_SHOW_ASSETS: true
+      RECIPE_LANDSCAPE_VIEW: true
+      RECIPE_DISABLE_COMMENTS: true
+      RECIPE_DISABLE_AMOUNT: false
 
   gitlab:
     image: gitlab/gitlab-ee
