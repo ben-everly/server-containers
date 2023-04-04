@@ -25,15 +25,18 @@ services:
     image: jc21/nginx-proxy-manager
     restart: always
     ports:
-      - '80:80'
-      - '81'
-      - '443:443'
+      - 80:80
+      - 81:81
+      - 443:443
     volumes:
       - ./config/nginx-proxy-manager:/data
       - ./config/letsencrypt:/etc/letsencrypt
     networks:
       home:
         ipv4_address: 10.0.1.3
+    environment:
+      PUID: ${UID:-1000}
+      PGID: ${GID:-1000}
 
   gluetun:
     image: qmcgaw/gluetun
