@@ -326,7 +326,7 @@ services:
     volumes:
       - ${GITLAB_CONFIG_DIR:-./config/gitlab}:/etc/gitlab
       - ${GITLAB_LOG_DIR:-./logs/gitlab}/:/var/log/gitlab
-      - ${DATA_DIR:-./data}:/var/opt/gitlab
+      - ${DATA_DIR:-./data}/.gitlab:/var/opt/gitlab
     networks:
       home:
         ipv4_address: 10.0.1.12
