@@ -120,7 +120,7 @@ services:
     restart: unless-stopped
     volumes:
       - ${SABNZBD_CONFIG_DIR:-./config/sabnzbd}:/config
-      - ${DATA_DIR:-./data}/.usenet/downloads:/downloads
+      - ${DATA_DIR:-./data}/.usenet/complete:/downloads
       - ${DATA_DIR:-./data}/.usenet/incomplete:/incomplete-downloads
     networks:
       - home
