@@ -17,7 +17,7 @@ services:
         ipv4_address: 10.0.1.2
     environment:
       TZ: America/Chicago
-      WEBPASSWORD: pass
+      WEBPASSWORD: ${PASSWORD:-pass}
       PIHOLE_UID: ${UID:-1000}
       PIHOLE_GID: ${GID:-1000}
 
@@ -71,13 +71,13 @@ services:
       - home
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: example
+      POSTGRES_PASSWORD: ${PASSWORD:-pass}
 
   maria:
     image: mariadb
     restart: always
     environment: 
-      MARIADB_ROOT_PASSWORD: pass
+      MARIADB_ROOT_PASSWORD: ${PASSWORD:-pass}
 
   samba:
     image: dperson/samba
