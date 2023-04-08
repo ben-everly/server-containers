@@ -26,7 +26,7 @@ services:
     restart: always
     ports:
       - 80:80
-      - 81:81
+      - 81
       - 443:443
     volumes:
       - ./config/nginx-proxy-manager:/data
