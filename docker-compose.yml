@@ -73,6 +73,12 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
 
+  maria:
+    image: mariadb
+    restart: always
+    environment: 
+      MARIADB_ROOT_PASSWORD: pass
+
   samba:
     image: dperson/samba
     restart: always
