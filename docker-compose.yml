@@ -82,17 +82,6 @@ services:
       HTTPPROXY: enabled
       TZ: America/Chicago
 
-  postgres:
-    image: postgres
-    restart: always
-    ports:
-      - 5432:5432
-    networks:
-      - home
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${PASSWORD}
-
   samba:
     image: dperson/samba
     restart: always
