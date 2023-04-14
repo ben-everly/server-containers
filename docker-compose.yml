@@ -6,15 +6,14 @@ services:
     image: pihole/pihole:latest
     restart: always
     ports:
-      - 53/tcp
-      - 53/udp
+      - 53:53/tcp
+      - 53:53/udp
       - 80/tcp
     volumes:
       - ${PIHOLE_CONFIG_DIR:-./config/pihole}:/etc/pihole
       - ${DNSMASQ_CONFIG_DIR:-./config/dnsmasq}:/etc/dnsmasq.d
     networks:
-      home:
-        ipv4_address: 10.0.1.2
+      - home
     environment:
       TZ: America/Chicago
       WEBPASSWORD: ${PASSWORD}
@@ -26,14 +25,13 @@ services:
     restart: always
     ports:
       - 80:80
-      - 81
+      - 81:81
       - 443:443
     volumes:
       - ./config/nginx-proxy-manager:/data
       - ./config/letsencrypt:/etc/letsencrypt
     networks:
-      home:
-        ipv4_address: 10.0.1.3
+      - home
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -71,8 +69,7 @@ services:
     volumes:
       - ${GLUETUN_CONFIG_DIR:-./config/gluetun}:/gluetun
     networks:
-      home:
-        ipv4_address: 10.0.1.4
+      - home
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
@@ -105,8 +102,7 @@ services:
     volumes:
       - ${DATA_DIR:-./data}:/mount
     networks:
-      home:
-        ipv4_address: 10.0.1.5
+      - home
     environment:
       TZ: America/Chicago
       USERID: ${UID:-1000}
@@ -121,8 +117,7 @@ services:
     volumes:
       - ${HOMER_CONFIG_DIR:-./config/homer/}:/www/assets
     networks:
-      home:
-        ipv4_address: 10.0.1.6
+      - home
 
   transmission:
     image: linuxserver/transmission
@@ -165,8 +160,7 @@ services:
       - ${RADARR_CONFIG_DIR:-./config/radarr}:/config
       - ${DATA_DIR:-./data}:/data
     networks:
-      home:
-        ipv4_address: 10.0.1.7
+      - home
     depends_on:
       - jackett
       - transmission
@@ -186,8 +180,7 @@ services:
       - ${SONARR_CONFIG_DIR:-./config/sonarr}:/config
       - ${DATA_DIR:-./data}:/data
     networks:
-      home:
-        ipv4_address: 10.0.1.8
+      - home
     depends_on:
       - jackett
       - transmission
@@ -207,8 +200,7 @@ services:
       - ${READARR_CONFIG_DIR:-./config/readarr}:/config
       - ${DATA_DIR:-./data}:/data
     networks:
-      home:
-        ipv4_address: 10.0.1.17
+      - home
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -223,8 +215,7 @@ services:
     volumes:
       - ${PROWLARR_CONFIG_DIR:-./config/prowlarr}:/config
     networks:
-      home:
-        ipv4_address: 10.0.1.16
+      - home
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -239,8 +230,7 @@ services:
     volumes:
       - ${OVERSEER_CONFIG_DIR:-./config/overseerr}:/app/config
     networks:
-      home:
-        ipv4_address: 10.0.1.15
+      - home
     environment:
       TZ: America/Chicago
       LOG_LEVEL: debug
@@ -255,8 +245,7 @@ services:
       - ${DATA_DIR:-./data}/.torrents/watch:/downloads
       - ${JACKETT_CONFIG_DIR:-./config/jackett}:/config
     networks:
-      home:
-        ipv4_address: 10.0.1.9
+      - home
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -279,8 +268,7 @@ services:
       - ${PLEX_CONFIG_DIR:-./config/plex}:/config
       - ${DATA_DIR:-./data}:/data
     networks:
-      home:
-        ipv4_address: 10.0.1.10
+      - home
     environment:
       TZ: America/Chicago
       ADVERTISE_IP: http://192.168.1.32:32400
@@ -299,8 +287,7 @@ services:
       - ${JELLYFIN_CONFIG_DIR:-./config/jellyfin}:/config
       - ${DATA_DIR:-./data}:/data
     networks:
-      home:
-        ipv4_address: 10.0.1.19
+      - home
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -316,8 +303,7 @@ services:
     volumes:
       - ${DATA_DIR:-./data}/calibre:/config
     networks:
-      home:
-        ipv4_address: 10.0.1.18
+      - home
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -331,8 +317,7 @@ services:
     volumes:
       - ${DATA_DIR:-./data}/.mealie:/app/data
     networks:
-      home:
-        ipv4_address: 10.0.1.11
+      - home
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -353,15 +338,11 @@ services:
       - ${HOMEASSISTANT_CONFIG_DIR:-./config/homeassistant}:/config
       - /etc/localtime:/etc/localtime:ro
     networks:
-      home:
-        ipv4_address: 10.0.1.14
+      - home
     environment:
       TZ: America/Chicago
 
 networks:
   home:
+    name: home
     driver: bridge
-    ipam:
-      config:
-        - subnet: 10.0.1.0/16
-          gateway: 10.0.1.1
