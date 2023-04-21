@@ -96,7 +96,7 @@ services:
       TZ: America/Chicago
       USERID: ${UID:-1000}
       GROUPID: ${GID:-1000}
-      SHARE: bluefan_store;/mount
+      SHARE: ${SAMBA_SHARE_NAME:-bluefan_store};/mount
 
   homer:
     image: b4bz/homer
