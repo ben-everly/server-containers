@@ -245,14 +245,14 @@ services:
     restart: unless-stopped
     ports:
       - 32400:32400/tcp
-      - 1900:1900/udp
-      - 5353/udp
-      - 8324:8324/tcp
-      - 32410:32410/udp
-      - 32412:32412/udp
-      - 32413/udp
-      - 32414:32414/udp
-      - 32469:32469/tcp
+      #- 1900:1900/udp
+      #- 5353/udp
+      #- 8324:8324/tcp
+      #- 32410:32410/udp
+      #- 32412:32412/udp
+      #- 32413/udp
+      #- 32414:32414/udp
+      #- 32469:32469/tcp
     volumes:
       - ${PLEX_CONFIG_DIR:-./config/plex}:/config
       - ${DATA_DIR:-./data}:/data
@@ -268,7 +268,7 @@ services:
     image: linuxserver/jellyfin
     restart: unless-stopped
     ports:
-      - 8096:8096
+      - 8096
       - 7359:7359/udp #optional
       #- 8920:8920 #optional
       #- 1900:1900/udp #optional
@@ -288,7 +288,7 @@ services:
     image: lscr.io/linuxserver/calibre
     ports:
       - 8080
-      - 8081
+      - 8081:8081
     volumes:
       - ${DATA_DIR:-./data}/calibre:/config
     networks:
