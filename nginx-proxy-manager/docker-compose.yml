@@ -12,6 +12,7 @@ services:
       - ./config/letsencrypt:/etc/letsencrypt
     networks:
       - home
+      - pihole
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -40,4 +41,7 @@ services:
 networks:
   home:
     name: home
+    driver: bridge
+  pihole:
+    name: pihole
     driver: bridge

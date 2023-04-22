@@ -2,24 +2,6 @@ version: '3.1'
 
 services:
 
-  pihole:
-    image: pihole/pihole:latest
-    restart: always
-    ports:
-      - 53:53/tcp
-      - 53:53/udp
-      - 80/tcp
-    volumes:
-      - ${PIHOLE_CONFIG_DIR:-./config/pihole}:/etc/pihole
-      - ${DNSMASQ_CONFIG_DIR:-./config/dnsmasq}:/etc/dnsmasq.d
-    networks:
-      - home
-    environment:
-      TZ: America/Chicago
-      WEBPASSWORD: ${PASSWORD}
-      PIHOLE_UID: ${UID:-1000}
-      PIHOLE_GID: ${GID:-1000}
-
   gluetun:
     image: qmcgaw/gluetun
     restart: always
