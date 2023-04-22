@@ -20,45 +20,6 @@ services:
       PIHOLE_UID: ${UID:-1000}
       PIHOLE_GID: ${GID:-1000}
 
-  nginx-proxy-manager:
-    image: jc21/nginx-proxy-manager
-    restart: always
-    ports:
-      - 80:80
-      - 81:81
-      - 443:443
-    volumes:
-      - ./config/nginx-proxy-manager:/data
-      - ./config/letsencrypt:/etc/letsencrypt
-    networks:
-      - home
-    environment:
-      PUID: ${UID:-1000}
-      PGID: ${GID:-1000}
-      DB_MYSQL_HOST: nginx-proxy-manager-mariadb
-      DB_MYSQL_PORT: 3306
-      DB_MYSQL_USER: nginx_proxy_manager
-      DB_MYSQL_PASSWORD: ${NGINX_PROXY_MANAGER_MYSQL_PASSWORD}
-      DB_MYSQL_NAME: nginx_proxy_manager
-
-  nginx-proxy-manager-mariadb:
-    image: linuxserver/mariadb
-    restart: always
-    ports:
-      - 3306
-    volumes:
-      - ./config/nginx-proxy-manager-mariadb:/config
-    networks:
-      - home
-    environment: 
-      PUID: ${UID:-1000}
-      PGID: ${GID:-1000}
-      TZ: America/Chicago
-      MYSQL_RANDOM_ROOT_PASSWORD: yes
-      MYSQL_DATABASE: nginx_proxy_manager
-      MYSQL_USER: nginx_proxy_manager
-      MYSQL_PASSWORD: ${NGINX_PROXY_MANAGER_MYSQL_PASSWORD}
-
   gluetun:
     image: qmcgaw/gluetun
     restart: always
