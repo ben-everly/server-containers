@@ -13,6 +13,7 @@ services:
     networks:
       - home
       - pihole
+      - homer
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -44,4 +45,7 @@ networks:
     driver: bridge
   pihole:
     name: pihole
+    driver: bridge
+  homer:
+    name: homer
     driver: bridge

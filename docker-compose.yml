@@ -25,16 +25,6 @@ services:
       HTTPPROXY: enabled
       TZ: America/Chicago
 
-  homer:
-    image: b4bz/homer
-    restart: unless-stopped
-    ports:
-      - 8080
-    volumes:
-      - ${HOMER_CONFIG_DIR:-./config/homer/}:/www/assets
-    networks:
-      - home
-
   transmission:
     image: linuxserver/transmission
     restart: unless-stopped
