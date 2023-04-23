@@ -17,6 +17,7 @@ services:
       - calibre
       - mealie
       - jellyfin
+      - plex
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -58,4 +59,7 @@ networks:
     driver: bridge
   jellyfin:
     name: jellyfin
+    driver: bridge
+  plex:
+    name: plex
     driver: bridge
