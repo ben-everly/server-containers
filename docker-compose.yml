@@ -200,19 +200,6 @@ services:
       TZ: America/Chicago
       JELLYFIN_PublishedServerUrl: http://192.168.1.32 #optional
 
-  homeassistant:
-    image: homeassistant/home-assistant
-    restart: unless-stopped
-    ports:
-      - 8123:8123
-    volumes:
-      - ${HOMEASSISTANT_CONFIG_DIR:-./config/homeassistant}:/config
-      - /etc/localtime:/etc/localtime:ro
-    networks:
-      - home
-    environment:
-      TZ: America/Chicago
-
 networks:
   home:
     name: home
