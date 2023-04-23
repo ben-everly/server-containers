@@ -8,14 +8,12 @@ services:
       - 445:445
     volumes:
       - ${DATA_DIR:-../data}:/mount
-    networks:
-      - samba
     environment:
       TZ: America/Chicago
       USERID: ${UID:-1000}
       GROUPID: ${GID:-1000}
       SHARE: ${SAMBA_SHARE_NAME:-bluefan_store};/mount
 networks:
-  samba:
+  default:
     name: samba
     driver: bridge

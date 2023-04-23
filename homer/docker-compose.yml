@@ -7,9 +7,7 @@ services:
       - 8080
     volumes:
       - ${HOMER_CONFIG_DIR:-./config/}:/www/assets
-    networks:
-      - homer
 networks:
-  homer:
+  default:
     name: homer
     driver: bridge

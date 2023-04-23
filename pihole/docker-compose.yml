@@ -10,14 +10,12 @@ services:
     volumes:
       - ${PIHOLE_CONFIG_DIR:-./config/pihole}:/etc/pihole
       - ${DNSMASQ_CONFIG_DIR:-./config/dnsmasq}:/etc/dnsmasq.d
-    networks:
-      - pihole
     environment:
       TZ: America/Chicago
       WEBPASSWORD: ${PASSWORD}
       PIHOLE_UID: ${UID:-1000}
       PIHOLE_GID: ${GID:-1000}
 networks:
-  pihole:
+  default:
     name: pihole
     driver: bridge

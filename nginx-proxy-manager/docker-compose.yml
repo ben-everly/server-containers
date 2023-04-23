@@ -11,7 +11,7 @@ services:
       - ./config/nginx-proxy-manager:/data
       - ./config/letsencrypt:/etc/letsencrypt
     networks:
-      - home
+      - default
       - pihole
       - homer
     environment:
@@ -29,8 +29,6 @@ services:
       - 3306
     volumes:
       - ./config/nginx-proxy-manager-mariadb:/config
-    networks:
-      - home
     environment: 
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -40,8 +38,8 @@ services:
       MYSQL_USER: nginx_proxy_manager
       MYSQL_PASSWORD: ${NGINX_PROXY_MANAGER_MYSQL_PASSWORD}
 networks:
-  home:
-    name: home
+  default:
+    name: nginx-proxy-manager
     driver: bridge
   pihole:
     name: pihole
