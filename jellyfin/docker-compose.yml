@@ -1,0 +1,22 @@
+version: '3.1'
+services:
+  jellyfin:
+    image: linuxserver/jellyfin
+    restart: unless-stopped
+    ports:
+      - 8096
+      - 7359:7359/udp #optional
+      #- 8920:8920 #optional
+      #- 1900:1900/udp #optional
+    volumes:
+      - ${JELLYFIN_CONFIG_DIR:-./config/jellyfin}:/config
+      - ${DATA_DIR:-../data}:/data
+    environment:
+      PUID: ${UID:-1000}
+      PGID: ${GID:-1000}
+      TZ: America/Chicago
+      JELLYFIN_PublishedServerUrl: http://192.168.1.32 #optional
+networks:
+  default:
+    name: jellyfin
+    driver: bridge

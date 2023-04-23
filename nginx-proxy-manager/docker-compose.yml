@@ -16,6 +16,7 @@ services:
       - homer
       - calibre
       - mealie
+      - jellyfin
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -54,4 +55,7 @@ networks:
     driver: bridge
   mealie:
     name: mealie
+    driver: bridge
+  jellyfin:
+    name: jellyfin
     driver: bridge
