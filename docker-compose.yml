@@ -200,26 +200,6 @@ services:
       TZ: America/Chicago
       JELLYFIN_PublishedServerUrl: http://192.168.1.32 #optional
 
-  mealie:
-    image: hkotel/mealie:latest
-    restart: unless-stopped
-    ports:
-      - 80
-    volumes:
-      - ${DATA_DIR:-./data}/.mealie:/app/data
-    networks:
-      - home
-    environment:
-      PUID: ${UID:-1000}
-      PGID: ${GID:-1000}
-      TZ: America/Chicago
-      RECIPE_PUBLIC: true
-      RECIPE_SHOW_NUTRITION: true
-      RECIPE_SHOW_ASSETS: true
-      RECIPE_LANDSCAPE_VIEW: true
-      RECIPE_DISABLE_COMMENTS: true
-      RECIPE_DISABLE_AMOUNT: false
-
   homeassistant:
     image: homeassistant/home-assistant
     restart: unless-stopped

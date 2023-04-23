@@ -15,6 +15,7 @@ services:
       - pihole
       - homer
       - calibre
+      - mealie
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
@@ -50,4 +51,7 @@ networks:
     driver: bridge
   calibre:
     name: calibre
+    driver: bridge
+  mealie:
+    name: mealie
     driver: bridge
