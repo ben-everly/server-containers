@@ -1,7 +1,5 @@
 version: '3.1'
-
 services:
-
   gluetun:
     image: qmcgaw/gluetun
     restart: always
@@ -11,8 +9,6 @@ services:
       - 9091
     volumes:
       - ${GLUETUN_CONFIG_DIR:-./config/gluetun}:/gluetun
-    networks:
-      - home
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
@@ -24,7 +20,6 @@ services:
       SERVER_REGIONS: United States
       HTTPPROXY: enabled
       TZ: America/Chicago
-
   transmission:
     image: linuxserver/transmission
     restart: unless-stopped
@@ -32,8 +27,6 @@ services:
       - ${TRANSMISSION_CONFIG_DIR:-./config/transmission}:/config
       - ${DATA_DIR:-./data}/.torrents:/downloads
       - ${DATA_DIR:-./data}/.torrents/watch:/watch
-    networks:
-      - home
     network_mode: "service:gluetun"
     environment:
       TZ: America/Chicago
@@ -41,7 +34,6 @@ services:
       PGID: ${GID:-1000}
     cap_add:
       - NET_ADMIN
-
   sabnzbd:
     image: linuxserver/sabnzbd
     restart: unless-stopped
@@ -49,14 +41,11 @@ services:
       - ${SABNZBD_CONFIG_DIR:-./config/sabnzbd}:/config
       - ${DATA_DIR:-./data}/.usenet/complete:/downloads
       - ${DATA_DIR:-./data}/.usenet/incomplete:/incomplete-downloads
-    networks:
-      - home
     network_mode: "service:gluetun"
     environment:
       TZ: America/Chicago
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
-
   radarr:
     image: cr.hotio.dev/hotio/radarr
     restart: unless-stopped
@@ -65,18 +54,11 @@ services:
     volumes:
       - ${RADARR_CONFIG_DIR:-./config/radarr}:/config
       - ${DATA_DIR:-./data}:/data
-    networks:
-      - home
-    depends_on:
-      - jackett
-      - transmission
-      - sabnzbd
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
       UMASK: 002
       TZ: America/Chicago
-
   sonarr:
     image: cr.hotio.dev/hotio/sonarr
     restart: unless-stopped
@@ -85,18 +67,11 @@ services:
     volumes:
       - ${SONARR_CONFIG_DIR:-./config/sonarr}:/config
       - ${DATA_DIR:-./data}:/data
-    networks:
-      - home
-    depends_on:
-      - jackett
-      - transmission
-      - sabnzbd
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
       UMASK: 002
       TZ: America/Chicago
-
   readarr:
     image: cr.hotio.dev/hotio/readarr
     restart: unless-stopped
@@ -105,14 +80,11 @@ services:
     volumes:
       - ${READARR_CONFIG_DIR:-./config/readarr}:/config
       - ${DATA_DIR:-./data}:/data
-    networks:
-      - home
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
       UMASK: 002
       TZ: America/Chicago
-
   prowlarr:
     image: cr.hotio.dev/hotio/prowlarr
     restart: unless-stopped
@@ -120,14 +92,11 @@ services:
       - 9696
     volumes:
       - ${PROWLARR_CONFIG_DIR:-./config/prowlarr}:/config
-    networks:
-      - home
     environment:
       PUID: ${UID:-1000}
       PGID: ${GID:-1000}
       UMASK: 002
       TZ: America/Chicago
-
   overseerr:
     image: sctx/overseerr:latest
     restart: unless-stopped
@@ -135,29 +104,10 @@ services:
       - 5055
     volumes:
       - ${OVERSEER_CONFIG_DIR:-./config/overseerr}:/app/config
-    networks:
-      - home
     environment:
       TZ: America/Chicago
       LOG_LEVEL: debug
-
-  jackett:
-    image: linuxserver/jackett:latest
-    restart: unless-stopped
-    ports:
-      - 9117
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${DATA_DIR:-./data}/.torrents/watch:/downloads
-      - ${JACKETT_CONFIG_DIR:-./config/jackett}:/config
-    networks:
-      - home
-    environment:
-      PUID: ${UID:-1000}
-      PGID: ${GID:-1000}
-      TZ: America/Chicago
-
 networks:
-  home:
-    name: home
+  default:
+    name: servarr
     driver: bridge
